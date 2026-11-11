@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Avatar Test</title>
 <style>
-  :root { --bg: #ffffff; --text: #1a1a1a; --muted: #6b6b6b; --line: #cfcfcf; --hover: #f2f2f2; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #1c1c1c; --text: #f2f2f2; --muted: #a8a8a8; --line: #4a4a4a; --hover: #2a2a2a; }
-  }
+  /* NerdQuiz app tokens: canvas, onCanvas, onCanvasMuted, surfaceRaised, accent */
+  :root { --bg: #365387; --text: #ffffff; --muted: #C9D3E6; --box: #1F1F1F; --accent: #FF7C00; }
   body { margin: 0; padding: 24px 16px; background: var(--bg); color: var(--text);
          font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 480px; margin: 0 auto; }
@@ -16,10 +14,9 @@
   .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .tile canvas { width: 100%; aspect-ratio: 1; display: block; border-radius: 16px; }
   .tile p { margin: 8px 0 0; font-size: 13px; color: var(--muted); text-align: center; }
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  button { font: inherit; font-size: 14px; color: var(--text); background: transparent;
-           border: 1px solid var(--line); border-radius: 8px; padding: 10px 16px; cursor: pointer; }
-  button:hover { background: var(--hover); }
+  button { font: inherit; font-size: 14px; color: var(--text); background: var(--box);
+           border: 0; border-radius: 16px; aspect-ratio: 2; cursor: pointer; }
+  button:hover { background: var(--accent); color: #1F1F1F; }
 </style>
 </head>
 <body>
@@ -30,8 +27,6 @@
     <div class="tile"><canvas id="hg1" width="320" height="320"></canvas><p>Dunkel</p></div>
     <div class="tile"><canvas id="hg2" width="320" height="320"></canvas><p>Neutral</p></div>
     <div class="tile"><canvas id="hg3" width="320" height="320"></canvas><p>Dritte Farbe</p></div>
-  </div>
-  <div class="actions">
     <button id="pat">Neues Muster</button>
     <button id="col">Andere Farben</button>
   </div>
@@ -41,17 +36,17 @@
   var S = 320, w = 24;
 
   // Each ramp: [very light, mid, very dark]
+  // NerdQuiz board column hues (nerdquiz-app theme.ts); tint/shade derived from them
   var R = [
-    ['#EEEDFE', '#7f77dd', '#26215c'], // purple
-    ['#E1F5EE', '#1d9e75', '#04342c'], // teal
-    ['#FAECE7', '#d85a30', '#4a1b0c'], // coral
-    ['#FBEAF0', '#d4537e', '#4b1528'], // pink
-    ['#E6F1FB', '#378add', '#042c53'], // blue
-    ['#FAEEDA', '#ef9f27', '#412402']  // amber
+    ['#FCE6DB', '#EA5B0C', '#4E0000'], // orange
+    ['#D9F4FC', '#00B9EE', '#002F4F'], // cyan
+    ['#F8D9E9', '#D1006C', '#400000'], // magenta
+    ['#D9DEF2', '#0024AA', '#000025'], // blue
+    ['#E9F4DF', '#6FB52C', '#092C00']  // green
   ];
 
   var seed = Math.floor(Math.random() * 1e9);
-  var ci = [0, 5, 1]; // main color, second color, third color (ramp indices)
+  var ci = [0, 1, 3]; // main color, second color, third color (ramp indices)
 
   // Seeded random generator (mulberry32): same seed, same avatar
   function rng(s) {
@@ -102,7 +97,7 @@
   function draw() {
     drawAvatar('hg0', R[ci[0]][0]); // light tint of main color
     drawAvatar('hg1', R[ci[0]][2]); // dark shade of main color
-    drawAvatar('hg2', '#f1efe8');   // neutral
+    drawAvatar('hg2', '#1F1F1F');   // app box surface
     drawAvatar('hg3', R[ci[2]][1]); // third color
   }
 
@@ -112,8 +107,8 @@
   };
 
   document.getElementById('col').onclick = function () {
-    var a = [0, 1, 2, 3, 4, 5];
-    for (var i = 5; i > 0; i--) {
+    var a = [0, 1, 2, 3, 4];
+    for (var i = 4; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var t = a[i]; a[i] = a[j]; a[j] = t;
     }
