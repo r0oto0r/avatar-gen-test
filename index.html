@@ -27,6 +27,8 @@
     <div class="tile"><canvas id="hg1" width="320" height="320"></canvas><p>Dunkel</p></div>
     <div class="tile"><canvas id="hg2" width="320" height="320"></canvas><p>Neutral</p></div>
     <div class="tile"><canvas id="hg3" width="320" height="320"></canvas><p>Dritte Farbe</p></div>
+    <div class="tile"><canvas id="hg4" width="320" height="320"></canvas><p>Dritte Farbe hell</p></div>
+    <div class="tile"><canvas id="hg5" width="320" height="320"></canvas><p>Dritte Farbe dunkel</p></div>
     <button id="pat">Neues Muster</button>
     <button id="col">Andere Farben</button>
   </div>
@@ -99,6 +101,8 @@
     drawAvatar('hg1', R[ci[0]][2]); // dark shade of main color
     drawAvatar('hg2', '#1F1F1F');   // app box surface
     drawAvatar('hg3', R[ci[2]][1]); // third color
+    drawAvatar('hg4', R[ci[2]][0]); // light tint of third color
+    drawAvatar('hg5', R[ci[2]][2]); // dark shade of third color
   }
 
   document.getElementById('pat').onclick = function () {
